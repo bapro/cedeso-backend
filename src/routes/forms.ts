@@ -1,10 +1,10 @@
-import { Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import {
   submitForm,
   getForms,
   getFormById,
 } from "../controllers/formController";
-import multer from "multer";
+import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import fs from "fs";
 
@@ -12,7 +12,11 @@ const router = Router();
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (
+    req: Request,
+    file: Express.Multer.File,
+    cb: (error: Error | null, destination: string) => void
+  ) => {
     const uploadDir = "uploads/";
     // Create uploads directory if it doesn't exist
     if (!fs.existsSync(uploadDir)) {
@@ -20,7 +24,11 @@ const storage = multer.diskStorage({
     }
     cb(null, uploadDir);
   },
-  filename: (req, file, cb) => {
+  filename: (
+    req: Request,
+    file: Express.Multer.File,
+    cb: (error: Error | null, filename: string) => void
+  ) => {
     // Generate unique filename
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, uniqueSuffix + path.extname(file.originalname));
@@ -32,7 +40,11 @@ const upload = multer({
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB limit
   },
-  fileFilter: (req, file, cb) => {
+  fileFilter: (
+    req: Request,
+    file: Express.Multer.File,
+    cb: FileFilterCallback
+  ) => {
     // Accept images only
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
       return cb(new Error("Only image files are allowed!"));
@@ -42,38 +54,36 @@ const upload = multer({
 });
 
 // Upload endpoint
-router.post("/upload", upload.array("images", 10), (req, res) => {
-  // router.post("/upload", upload.single("image"), (req, res) => {
-  try {
-    // if (!req.file) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "No file uploaded",
-    //   });
-    // }
-    if (!req.files || (req.files as Express.Multer.File[]).length === 0) {
-      return res.status(400).json({
+router.post(
+  "/upload",
+  upload.array("images", 10),
+  (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const files = req.files as Express.Multer.File[];
+
+      if (!files || files.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "No files uploaded",
+        });
+      }
+
+      const uploadedUrls = files.map((file) => `/uploads/${file.filename}`);
+
+      res.json({
+        success: true,
+        imageUrls: uploadedUrls, // Return array instead of single URL
+        message: "Files uploaded successfully",
+      });
+    } catch (error) {
+      console.error("Upload error:", error);
+      res.status(500).json({
         success: false,
-        message: "No files uploaded",
+        message: "File upload failed",
       });
     }
-    const files = req.files as Express.Multer.File[];
-    const uploadedUrls = files.map((file) => `/uploads/${file.filename}`);
-    // Return the file path (you might want to return a full URL in production)
-    res.json({
-      success: true,
-      // imageUrl: `/uploads/${req.file.filename}`,
-      imageUrls: uploadedUrls, // Return array instead of single URL
-      message: "File uploaded successfully",
-    });
-  } catch (error) {
-    console.error("Upload error:", error);
-    res.status(500).json({
-      success: false,
-      message: "File upload failed",
-    });
   }
-});
+);
 
 // Your existing routes
 router.post("/submit", submitForm);
