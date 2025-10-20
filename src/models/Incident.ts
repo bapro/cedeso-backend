@@ -1,87 +1,94 @@
-import { Table, Column, Model, DataType, ForeignKey, HasOne } from 'sequelize-typescript';
-import Profile from './Profile';
-import Capture from './Capture';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  ForeignKey,
+  HasOne,
+} from "sequelize-typescript";
+import Profile from "./Profile";
+import Capture from "./Capture";
 
 @Table({
-  tableName: 'incidents',
-  timestamps: true
+  tableName: "incidents",
+  timestamps: true,
 })
 class Incident extends Model {
   @Column({
     type: DataType.STRING,
-    allowNull: false
+    allowNull: false,
   })
   reporterType!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: true
+    allowNull: true,
   })
   otherReporterType?: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: true
+    allowNull: true,
   })
   phone?: string;
 
   @Column({
     type: DataType.DATE,
-    allowNull: false
+    allowNull: false,
   })
   date!: Date;
 
   @Column({
     type: DataType.TIME,
-    allowNull: false
+    allowNull: false,
   })
-  time!: Date;
+  time!: string;
 
   @Column({
     type: DataType.STRING(2),
-    allowNull: false
+    allowNull: false,
   })
   ampm!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false
+    allowNull: false,
   })
   province!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false
+    allowNull: false,
   })
   municipio!: string;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false
+    allowNull: false,
   })
   community!: string;
 
   @Column({
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
   })
   females!: number;
 
   @Column({
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
   })
   males!: number;
 
   @Column({
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
   })
   totalAffected!: number;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false
+    allowNull: false,
   })
   userName!: string;
 
