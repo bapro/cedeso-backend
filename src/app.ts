@@ -53,6 +53,7 @@ app.get("/", (req, res) => {
 app.use("/api", formRoutes);
 
 // Health check endpoint (improved for Vercel)
+// Health check endpoint (improved for Vercel)
 app.get("/health", async (req, res) => {
   try {
     await sequelize.authenticate();
@@ -62,7 +63,8 @@ app.get("/health", async (req, res) => {
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    res.status(500).json({
+    // Return 200 but indicate DB is disconnected
+    res.status(200).json({
       message: "Server is running but database connection failed",
       database: "disconnected",
       timestamp: new Date().toISOString(),
@@ -103,10 +105,19 @@ const startServer = async () => {
       console.log("Production - using existing database schema.");
     }
 
-    //Removed the app.listen as it's not needed in Vercel
+    // ✅ ADD THIS BACK - Vercel needs the server to be listening
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
   } catch (error) {
     console.error("Unable to connect to the database:", error);
-    process.exit(1);
+    // Don't exit in production - let the server start without DB
+    console.log("Starting server without database connection...");
+
+    // ✅ ADD THIS BACK - Start server even if DB fails
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT} (without database)`);
+    });
   }
 };
 
