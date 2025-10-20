@@ -1,12 +1,12 @@
-import { Model } from 'sequelize-typescript';
-import Profile from './Profile';
-import Capture from './Capture';
+import { Model } from "sequelize-typescript";
+import Profile from "./Profile";
+import Capture from "./Capture";
 declare class Incident extends Model {
     reporterType: string;
     otherReporterType?: string;
     phone?: string;
     date: Date;
-    time: Date;
+    time: string;
     ampm: string;
     province: string;
     municipio: string;

@@ -12,13 +12,16 @@ const submitForm = async (req, res) => {
         // Start a transaction
         const transaction = await database_1.default.transaction();
         try {
+            const incidentTime = new Date(formData.incident.time)
+                .toTimeString()
+                .split(" ")[0];
             // Create incident record
             const incident = await models_1.Incident.create({
                 reporterType: formData.incident.reporterType,
                 otherReporterType: formData.incident.otherReporterType,
                 phone: formData.incident.phone,
                 date: formData.incident.date,
-                time: formData.incident.time,
+                time: incidentTime,
                 ampm: formData.incident.ampm,
                 province: formData.incident.province,
                 municipio: formData.incident.municipio,
