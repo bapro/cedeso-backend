@@ -24,7 +24,7 @@ jspm_packages/
 .env.production
 
 # Build outputs
-dist/
+
 build/
 .cache/
 
