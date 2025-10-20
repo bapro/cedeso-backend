@@ -36,10 +36,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("mysql2"); // ✅ Forces Vercel to include mysql2
 require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const path_1 = __importDefault(require("path"));
 const dotenv = __importStar(require("dotenv"));
 const database_1 = __importDefault(require("./config/database"));
 const forms_1 = __importDefault(require("./routes/forms"));
@@ -61,7 +61,6 @@ if (process.env.NODE_ENV !== "production") {
     });
 }
 // Serve uploaded files statically - IMPORTANT: Vercel is serverless, file uploads need special handling
-app.use("/uploads", express_1.default.static(path_1.default.join(__dirname, "uploads")));
 // Root route - ADD THIS
 app.get("/", (req, res) => {
     res.json({
@@ -73,7 +72,6 @@ app.get("/", (req, res) => {
                 root: "/api",
                 forms: "/api/forms",
                 submit: "/api/submit",
-                upload: "/api/upload",
             },
             health: "/health",
         },
@@ -81,6 +79,7 @@ app.get("/", (req, res) => {
 });
 // Routes
 app.use("/api", forms_1.default);
+// Health check endpoint (improved for Vercel)
 // Health check endpoint (improved for Vercel)
 app.get("/health", async (req, res) => {
     try {
@@ -92,7 +91,8 @@ app.get("/health", async (req, res) => {
         });
     }
     catch (error) {
-        res.status(500).json({
+        // Return 200 but indicate DB is disconnected
+        res.status(200).json({
             message: "Server is running but database connection failed",
             database: "disconnected",
             timestamp: new Date().toISOString(),
@@ -110,6 +110,7 @@ app.use((req, res) => {
 });
 // Database connection and server startup
 const startServer = async () => {
+    console.log(`Starting CEDESO backend in ${process.env.NODE_ENV} mode on port ${PORT}`);
     try {
         await database_1.default.authenticate();
         console.log("Database connection established successfully.");
@@ -122,11 +123,19 @@ const startServer = async () => {
             // In production, don't sync - use existing schema
             console.log("Production - using existing database schema.");
         }
-        //Removed the app.listen as it's not needed in Vercel
+        // ✅ ADD THIS BACK - Vercel needs the server to be listening
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
     }
     catch (error) {
         console.error("Unable to connect to the database:", error);
-        process.exit(1);
+        // Don't exit in production - let the server start without DB
+        console.log("Starting server without database connection...");
+        // ✅ ADD THIS BACK - Start server even if DB fails
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT} (without database)`);
+        });
     }
 };
 startServer();

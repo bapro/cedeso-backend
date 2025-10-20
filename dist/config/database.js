@@ -52,18 +52,29 @@ const sequelize = new sequelize_typescript_1.Sequelize({
         acquire: 30000,
         idle: 10000,
     },
-    // Add these for better production performance
-    dialectOptions: process.env.NODE_ENV === "production"
-        ? {
-            connectTimeout: 60000, // 60 seconds timeout
-            // If your Bluehost requires SSL, add:
-            // ssl: {
-            //   rejectUnauthorized: false
-            // }
-        }
-        : {},
+    // FIX: Uncomment SSL for Bluehost
+    dialectOptions: {
+        connectTimeout: 60000, // 60 seconds timeout
+        ssl: {
+            rejectUnauthorized: false, // ✅ ENABLE SSL FOR BLUEHOST
+        },
+    },
     retry: {
         max: 3, // Retry connection up to 3 times
     },
+});
+// Add connection test with better logging
+sequelize
+    .authenticate()
+    .then(() => {
+    console.log("✅ Database connection established successfully");
+})
+    .catch((error) => {
+    console.error("❌ Database connection failed:");
+    console.error("   Error:", error.message);
+    console.error("   Code:", error.code);
+    console.error("   Host:", process.env.DB_HOST);
+    console.error("   Database:", process.env.DB_NAME);
+    console.error("   User:", process.env.DB_USER);
 });
 exports.default = sequelize;

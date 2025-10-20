@@ -92,6 +92,9 @@ app.use((req: express.Request, res: express.Response) => {
 
 // Database connection and server startup
 const startServer = async () => {
+  console.log(
+    `Starting CEDESO backend in ${process.env.NODE_ENV} mode on port ${PORT}`
+  );
   try {
     await sequelize.authenticate();
     console.log("Database connection established successfully.");
