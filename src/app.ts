@@ -1,7 +1,7 @@
+import "mysql2"; // ✅ Forces Vercel to include mysql2
 import "reflect-metadata";
 import express from "express";
 import cors from "cors";
-import path from "path";
 import * as dotenv from "dotenv";
 import sequelize from "./config/database";
 import formRoutes from "./routes/forms";
@@ -31,7 +31,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // Serve uploaded files statically - IMPORTANT: Vercel is serverless, file uploads need special handling
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Root route - ADD THIS
 app.get("/", (req, res) => {
@@ -44,7 +43,6 @@ app.get("/", (req, res) => {
         root: "/api",
         forms: "/api/forms",
         submit: "/api/submit",
-        upload: "/api/upload",
       },
       health: "/health",
     },
