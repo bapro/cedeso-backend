@@ -4,7 +4,6 @@ import cors from "cors";
 import path from "path";
 import * as dotenv from "dotenv";
 import sequelize from "./config/database";
-
 import formRoutes from "./routes/forms";
 
 dotenv.config();
@@ -106,9 +105,7 @@ const startServer = async () => {
       console.log("Production - using existing database schema.");
     }
 
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
+    //Removed the app.listen as it's not needed in Vercel
   } catch (error) {
     console.error("Unable to connect to the database:", error);
     process.exit(1);
