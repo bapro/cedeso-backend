@@ -4,42 +4,42 @@ import {
   getForms,
   getFormById,
 } from "../controllers/formController";
-import multer from "multer";
-import path from "path";
-import fs from "fs";
+// import multer from "multer";
+// import path from "path";
+// import fs from "fs";
 
 const router = Router();
 
 // Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadDir = "uploads/";
-    // Create uploads directory if it doesn't exist
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    // Generate unique filename
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     const uploadDir = "uploads/";
+//     // Create uploads directory if it doesn't exist
+//     if (!fs.existsSync(uploadDir)) {
+//       fs.mkdirSync(uploadDir, { recursive: true });
+//     }
+//     cb(null, uploadDir);
+//   },
+//   filename: (req, file, cb) => {
+//     // Generate unique filename
+//     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+//     cb(null, uniqueSuffix + path.extname(file.originalname));
+//   },
+// });
 
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB limit
-  },
-  fileFilter: (req, file, cb) => {
-    // Accept images only
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-      return cb(new Error("Only image files are allowed!"));
-    }
-    cb(null, true);
-  },
-});
+// const upload = multer({
+//   storage: storage,
+//   limits: {
+//     fileSize: 10 * 1024 * 1024, // 10MB limit
+//   },
+//   fileFilter: (req, file, cb) => {
+//     // Accept images only
+//     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+//       return cb(new Error("Only image files are allowed!"));
+//     }
+//     cb(null, true);
+//   },
+// });
 
 // Root API route
 router.get("/", (req, res) => {
@@ -53,7 +53,7 @@ router.get("/", (req, res) => {
         getAll: "GET /api/forms",
         getById: "GET /api/forms/:id",
       },
-      upload: "POST /api/upload",
+      // upload: "POST /api/upload",
       health: "GET /health",
     },
   });
