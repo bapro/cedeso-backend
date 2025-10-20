@@ -14,6 +14,9 @@ export const submitForm = async (
     const transaction = await sequelize.transaction();
 
     try {
+      const incidentTime = new Date(formData.incident.time)
+        .toTimeString()
+        .split(" ")[0];
       // Create incident record
       const incident = await Incident.create(
         {
@@ -21,7 +24,7 @@ export const submitForm = async (
           otherReporterType: formData.incident.otherReporterType,
           phone: formData.incident.phone,
           date: formData.incident.date,
-          time: formData.incident.time,
+          time: incidentTime,
           ampm: formData.incident.ampm,
           province: formData.incident.province,
           municipio: formData.incident.municipio,
