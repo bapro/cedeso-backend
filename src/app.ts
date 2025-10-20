@@ -34,6 +34,24 @@ if (process.env.NODE_ENV !== "production") {
 // Serve uploaded files statically - IMPORTANT: Vercel is serverless, file uploads need special handling
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// Root route - ADD THIS
+app.get("/", (req, res) => {
+  res.json({
+    message: "CEDESO Backend API is running!",
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      api: {
+        root: "/api",
+        forms: "/api/forms",
+        submit: "/api/submit",
+        upload: "/api/upload",
+      },
+      health: "/health",
+    },
+  });
+});
+
 // Routes
 app.use("/api", formRoutes);
 

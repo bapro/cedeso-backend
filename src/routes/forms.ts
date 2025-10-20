@@ -41,6 +41,24 @@ const upload = multer({
   },
 });
 
+// Root API route
+router.get("/", (req, res) => {
+  res.json({
+    message: "CEDESO Forms API",
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      forms: {
+        submit: "POST /api/submit",
+        getAll: "GET /api/forms",
+        getById: "GET /api/forms/:id",
+      },
+      upload: "POST /api/upload",
+      health: "GET /health",
+    },
+  });
+});
+
 // Upload endpoint
 router.post("/upload", upload.array("images", 10), (req, res) => {
   // router.post("/upload", upload.single("image"), (req, res) => {
