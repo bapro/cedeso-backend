@@ -60,38 +60,38 @@ router.get("/", (req, res) => {
 });
 
 // Upload endpoint
-router.post("/upload", upload.array("images", 10), (req, res) => {
-  // router.post("/upload", upload.single("image"), (req, res) => {
-  try {
-    // if (!req.file) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "No file uploaded",
-    //   });
-    // }
-    if (!req.files || (req.files as Express.Multer.File[]).length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "No files uploaded",
-      });
-    }
-    const files = req.files as Express.Multer.File[];
-    const uploadedUrls = files.map((file) => `/uploads/${file.filename}`);
-    // Return the file path (you might want to return a full URL in production)
-    res.json({
-      success: true,
-      // imageUrl: `/uploads/${req.file.filename}`,
-      imageUrls: uploadedUrls, // Return array instead of single URL
-      message: "File uploaded successfully",
-    });
-  } catch (error) {
-    console.error("Upload error:", error);
-    res.status(500).json({
-      success: false,
-      message: "File upload failed",
-    });
-  }
-});
+// router.post("/upload", upload.array("images", 10), (req, res) => {
+//   // router.post("/upload", upload.single("image"), (req, res) => {
+//   try {
+//     // if (!req.file) {
+//     //   return res.status(400).json({
+//     //     success: false,
+//     //     message: "No file uploaded",
+//     //   });
+//     // }
+//     if (!req.files || (req.files as Express.Multer.File[]).length === 0) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "No files uploaded",
+//       });
+//     }
+//     const files = req.files as Express.Multer.File[];
+//     const uploadedUrls = files.map((file) => `/uploads/${file.filename}`);
+//     // Return the file path (you might want to return a full URL in production)
+//     res.json({
+//       success: true,
+//       // imageUrl: `/uploads/${req.file.filename}`,
+//       imageUrls: uploadedUrls, // Return array instead of single URL
+//       message: "File uploaded successfully",
+//     });
+//   } catch (error) {
+//     console.error("Upload error:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: "File upload failed",
+//     });
+//   }
+// });
 
 // Your existing routes
 router.post("/submit", submitForm);
