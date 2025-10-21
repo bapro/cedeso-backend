@@ -18,7 +18,7 @@ const submitForm = async (req, res) => {
             // Create incident record
             const incident = await models_1.Incident.create({
                 reporterType: formData.incident.reporterType,
-                otherReporterType: formData.incident.otherReporterType,
+                //otherReporterType: formData.incident.otherReporterType,
                 phone: formData.incident.phone,
                 date: formData.incident.date,
                 time: incidentTime,

@@ -21,7 +21,7 @@ export const submitForm = async (
       const incident = await Incident.create(
         {
           reporterType: formData.incident.reporterType,
-          otherReporterType: formData.incident.otherReporterType,
+          //otherReporterType: formData.incident.otherReporterType,
           phone: formData.incident.phone,
           date: formData.incident.date,
           time: incidentTime,

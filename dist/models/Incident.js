@@ -20,91 +20,91 @@ let Incident = class Incident extends sequelize_typescript_1.Model {
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false
+        allowNull: false,
     }),
     __metadata("design:type", String)
 ], Incident.prototype, "reporterType", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
+        allowNull: true,
     }),
     __metadata("design:type", String)
 ], Incident.prototype, "otherReporterType", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
-        allowNull: true
+        allowNull: true,
     }),
     __metadata("design:type", String)
 ], Incident.prototype, "phone", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.DATE,
-        allowNull: false
+        allowNull: false,
     }),
     __metadata("design:type", Date)
 ], Incident.prototype, "date", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.TIME,
-        allowNull: false
+        allowNull: false,
     }),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], Incident.prototype, "time", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING(2),
-        allowNull: false
+        allowNull: false,
     }),
     __metadata("design:type", String)
 ], Incident.prototype, "ampm", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false
+        allowNull: false,
     }),
     __metadata("design:type", String)
 ], Incident.prototype, "province", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false
+        allowNull: false,
     }),
     __metadata("design:type", String)
 ], Incident.prototype, "municipio", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false
+        allowNull: false,
     }),
     __metadata("design:type", String)
 ], Incident.prototype, "community", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
-        allowNull: false
+        allowNull: false,
     }),
     __metadata("design:type", Number)
 ], Incident.prototype, "females", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
-        allowNull: false
+        allowNull: false,
     }),
     __metadata("design:type", Number)
 ], Incident.prototype, "males", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
-        allowNull: false
+        allowNull: false,
     }),
     __metadata("design:type", Number)
 ], Incident.prototype, "totalAffected", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false
+        allowNull: false,
     }),
     __metadata("design:type", String)
 ], Incident.prototype, "userName", void 0);
@@ -118,8 +118,8 @@ __decorate([
 ], Incident.prototype, "capture", void 0);
 Incident = __decorate([
     (0, sequelize_typescript_1.Table)({
-        tableName: 'incidents',
-        timestamps: true
+        tableName: "incidents",
+        timestamps: true,
     })
 ], Incident);
 exports.default = Incident;
