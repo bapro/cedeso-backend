@@ -97,17 +97,46 @@ export const submitForm = async (
   }
 };
 
+// export const getForms = async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const forms = await Incident.findAll({
+//       include: [
+//         { model: Profile, as: "profile" },
+//         { model: Capture, as: "capture" },
+//       ],
+//       order: [["createdAt", "DESC"]],
+//     });
+
+//     res.status(200).json(forms);
+//   } catch (error) {
+//     console.error("Error fetching forms:", error);
+//     res.status(500).json({
+//       message: "Error fetching forms",
+//       error: error instanceof Error ? error.message : "Unknown error",
+//     });
+//   }
+// };
+
 export const getForms = async (req: Request, res: Response): Promise<void> => {
   try {
     const forms = await Incident.findAll({
       include: [
-        { model: Profile, as: "profile" },
+        { model: Profile, as: "profile", attributes: ["profileType"] }, // Include Profile, but only get profileType
         { model: Capture, as: "capture" },
       ],
       order: [["createdAt", "DESC"]],
     });
 
-    res.status(200).json(forms);
+    // *** Data Transformation - IMPORTANT ***
+    const formattedForms = forms.map((form) => {
+      const { profile, ...incidentData } = form.toJSON() as any; // Use toJSON() and destructure
+      return {
+        ...incidentData,
+        profileType: profile ? profile.profileType : null, // Extract profileType or null
+      };
+    });
+
+    res.status(200).json(formattedForms);
   } catch (error) {
     console.error("Error fetching forms:", error);
     res.status(500).json({
