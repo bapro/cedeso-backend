@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import * as dotenv from "dotenv";
 import { Incident, Profile, Capture } from "../models";
-
+import { User } from "../models/User"; 
 dotenv.config();
 
 const sequelize = new Sequelize({
@@ -12,7 +12,7 @@ const sequelize = new Sequelize({
   port: parseInt(process.env.DB_PORT || "3306"),
   dialect: "mysql",
   logging: process.env.NODE_ENV === "development" ? console.log : false,
-  models: [Incident, Profile, Capture],
+  models: [Incident, Profile, Capture, User],
   pool: {
     max: 5,
     min: 0,

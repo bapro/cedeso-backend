@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
 const Profile_1 = __importDefault(require("./Profile"));
@@ -102,12 +103,17 @@ __decorate([
     __metadata("design:type", Number)
 ], Incident.prototype, "totalAffected", void 0);
 __decorate([
+    (0, sequelize_typescript_1.ForeignKey)(() => User),
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
+        type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
     }),
-    __metadata("design:type", String)
-], Incident.prototype, "userName", void 0);
+    __metadata("design:type", Number)
+], Incident.prototype, "userId", void 0);
+__decorate([
+    BelongsTo(() => User),
+    __metadata("design:type", typeof (_a = typeof User !== "undefined" && User) === "function" ? _a : Object)
+], Incident.prototype, "user", void 0);
 __decorate([
     (0, sequelize_typescript_1.HasOne)(() => Profile_1.default),
     __metadata("design:type", Profile_1.default)

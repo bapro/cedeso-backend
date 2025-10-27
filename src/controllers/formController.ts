@@ -32,7 +32,7 @@ export const submitForm = async (
           females: formData.incident.females,
           males: formData.incident.males,
           totalAffected: formData.incident.totalAffected,
-          userName: formData.incident.userName,
+          userId: formData.incident.userId,
         },
         { transaction }
       );

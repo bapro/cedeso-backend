@@ -36,6 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
 const dotenv = __importStar(require("dotenv"));
 const models_1 = require("../models");
+const User_1 = require("../models/User");
 dotenv.config();
 const sequelize = new sequelize_typescript_1.Sequelize({
     database: process.env.DB_NAME,
@@ -45,7 +46,7 @@ const sequelize = new sequelize_typescript_1.Sequelize({
     port: parseInt(process.env.DB_PORT || "3306"),
     dialect: "mysql",
     logging: process.env.NODE_ENV === "development" ? console.log : false,
-    models: [models_1.Incident, models_1.Profile, models_1.Capture],
+    models: [models_1.Incident, models_1.Profile, models_1.Capture, User_1.User],
     pool: {
         max: 5,
         min: 0,

@@ -43,6 +43,7 @@ const cors_1 = __importDefault(require("cors"));
 const dotenv = __importStar(require("dotenv"));
 const database_1 = __importDefault(require("./config/database"));
 const forms_1 = __importDefault(require("./routes/forms"));
+const users_1 = __importDefault(require("./routes/users"));
 dotenv.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000; // Changed to 3000 (Vercel default)
@@ -78,6 +79,7 @@ app.get("/", (req, res) => {
     });
 });
 // Routes
+app.use("/api/users", users_1.default);
 app.use("/api", forms_1.default);
 // Health check endpoint (improved for Vercel)
 // Health check endpoint (improved for Vercel)

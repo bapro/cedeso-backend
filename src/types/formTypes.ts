@@ -11,7 +11,7 @@ export interface IncidentFormData {
   females: number;
   males: number;
   totalAffected: number;
-  userName: string;
+  userId: number;
 }
 
 export interface ProfileFormData {

@@ -5,7 +5,7 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import sequelize from "./config/database";
 import formRoutes from "./routes/forms";
-
+import userRoutes from "./routes/users";
 dotenv.config();
 
 const app = express();
@@ -50,6 +50,7 @@ app.get("/", (req, res) => {
 });
 
 // Routes
+app.use("/api/users", userRoutes); 
 app.use("/api", formRoutes);
 
 // Health check endpoint (improved for Vercel)

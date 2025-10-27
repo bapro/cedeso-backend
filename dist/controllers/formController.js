@@ -29,7 +29,7 @@ const submitForm = async (req, res) => {
                 females: formData.incident.females,
                 males: formData.incident.males,
                 totalAffected: formData.incident.totalAffected,
-                userName: formData.incident.userName,
+                userId: formData.incident.userId,
             }, { transaction });
             // Create profile record
             await models_1.Profile.create({

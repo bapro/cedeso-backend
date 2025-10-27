@@ -14,7 +14,8 @@ declare class Incident extends Model {
     females: number;
     males: number;
     totalAffected: number;
-    userName: string;
+    userId: number;
+    user: User;
     profile: Profile;
     capture: Capture;
 }

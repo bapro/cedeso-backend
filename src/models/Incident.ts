@@ -86,11 +86,16 @@ class Incident extends Model {
   })
   totalAffected!: number;
 
+   // Remove userName column and add userId instead
+  @ForeignKey(() => User)
   @Column({
-    type: DataType.STRING,
+    type: DataType.INTEGER,
     allowNull: false,
   })
-  userName!: string;
+  userId!: number;
+
+  @BelongsTo(() => User)
+  user!: User;
 
   @HasOne(() => Profile)
   profile!: Profile;
