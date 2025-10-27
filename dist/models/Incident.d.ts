@@ -1,6 +1,7 @@
 import { Model } from "sequelize-typescript";
 import Profile from "./Profile";
 import Capture from "./Capture";
+import { User } from "./User";
 declare class Incident extends Model {
     reporterType: string;
     otherReporterType?: string;

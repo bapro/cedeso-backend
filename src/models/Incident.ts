@@ -5,10 +5,11 @@ import {
   DataType,
   ForeignKey,
   HasOne,
+  BelongsTo,
 } from "sequelize-typescript";
 import Profile from "./Profile";
 import Capture from "./Capture";
-
+import { User } from "./User";
 @Table({
   tableName: "incidents",
   timestamps: true,
@@ -86,7 +87,7 @@ class Incident extends Model {
   })
   totalAffected!: number;
 
-   // Remove userName column and add userId instead
+  // Remove userName column and add userId instead
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
