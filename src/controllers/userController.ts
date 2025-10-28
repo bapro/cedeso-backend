@@ -7,18 +7,25 @@ export class UserController {
   // Send verification code
   static async sendVerificationCode(req: Request, res: Response) {
     try {
+      console.log("🎯 sendVerificationCode controller called!");
+      console.log("📦 Request body:", req.body);
+
       const { fullName, email } = req.body;
 
       if (!fullName || !email) {
+        console.log("❌ Missing fullName or email");
         return res.status(400).json({
           success: false,
           message: "Full name and email are required",
         });
       }
 
+      console.log(`👤 Processing user: ${fullName}, ${email}`);
+
       // Email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
+        console.log("❌ Invalid email format");
         return res.status(400).json({
           success: false,
           message: "Please provide a valid email address",
@@ -31,11 +38,15 @@ export class UserController {
       ).toString();
       const verificationCodeExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
+      console.log(`🔐 Generated code: ${verificationCode}`);
+
       // Check if user already exists
       let user = await User.findOne({ where: { email } });
+      console.log(`👤 User found in DB: ${!!user}`);
 
       if (user) {
         // Update existing user with new verification code
+        console.log("🔄 Updating existing user");
         await user.update({
           fullName,
           verificationCode,
@@ -44,6 +55,7 @@ export class UserController {
         });
       } else {
         // Create new user
+        console.log("🆕 Creating new user");
         user = await User.create({
           fullName,
           email,
@@ -52,23 +64,26 @@ export class UserController {
         });
       }
 
+      console.log("📧 Calling sendVerificationCode service...");
       // Send verification email
       const emailSent = await sendVerificationCode(email, verificationCode);
 
       if (!emailSent) {
+        console.log("❌ Email service returned false");
         return res.status(500).json({
           success: false,
           message: "Failed to send verification email",
         });
       }
 
+      console.log("✅ Verification process completed successfully");
       res.json({
         success: true,
         message: "Verification code sent to your email",
-        email: email, // Return email for frontend reference
+        email: email,
       });
     } catch (error) {
-      console.error("Error in sendVerificationCode:", error);
+      console.error("💥 Error in sendVerificationCode:", error);
       res.status(500).json({
         success: false,
         message: "Internal server error",
